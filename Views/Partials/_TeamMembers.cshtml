@@ -1,25 +1,128 @@
-﻿
-@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
-@using Umbraco.Cms.Core.Models
+﻿@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
 @using Umbraco.Cms.Core.Models.Blocks;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
-        <div class='container-fluid team-members'>
-                    <div class='container d-block'>
-                        <div class='header'>Meet Our Team</div>
-                
-                    </div>
-                    <div class='container headliner'>
-                        <div><h3>Experience Team Members</h3></div>
-                        <div class='team-btn'>
-                            <button>Browse Team&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></button>
-                        </div>
-                    </div>
-            
-              
-                <div class='container member-grid'>
-       
+
+<div class='container-fluid team-members'>
+    <div class='container d-block'>
+        <div class='header'>Meet Our Team</div>
+    </div>
+    <div class='container headliner'>
+        <div><h3>Experience Team Members</h3></div>
+        <div class='team-btn'>
+            <button>Browse Team&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></button>
+        </div>
+    </div>
+
+    <div class='container member-grid'>
 
         @{
+            var variants = Model.Value<IEnumerable<BlockListItem>>("team").Select(x => x.Content).ToList();
+            for (int i = 0; i < variants.Count; i++)
+            {
+                if (i % 4 == 0)
+                {
+                    @:<div class="slideGroup customFade">
+                }
+
+                IPublishedContent teamImageContent = variants[i].Value<IPublishedContent>("teamImage");
+                string teamImageUrl = teamImageContent?.Url();
+             
+                    <div class="mySlides">
+                       <a href="/">
+                        <div class="card">
+                            <img src="@teamImageUrl" alt="@variants[i].Value("teamName")" />
+                            <div class="card-body">
+                                <h5 class="card-title">@variants[i].Value("teamName")</h5>
+                                <p class="card-text">@variants[i].Value("teamTitle")</p>
+                            </div>
+                        </div>
+                            </a>
+                    </div>
+            
+
+                if ((i + 1) % 4 == 0 || i == variants.Count - 1)
+                {
+                    @:</div>
+                }
+            }
+        }
+
+    </div>
+    <div class="container d-flex justify-content-center">
+    <div class="pagination">
+        @{
+            int totalGroups = (int)Math.Ceiling((double)variants.Count / 4);
+            for (int i = 1; i <= totalGroups; i++)
+            {
+                <span class="dot" onclick="currentGroup(@i)"></span>
+            }
+        }
+    </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    // inspirerad från w3schools.com
+var groupIndex = 0;
+var timer = null;
+var slideInterval = 20000;  // 1 second
+
+function showSlides() {
+    var groups = document.getElementsByClassName("slideGroup");
+    for (var i = 0; i < groups.length; i++) {
+        groups[i].classList.remove("show");
+    }
+    groupIndex++;
+    if (groupIndex > groups.length) { groupIndex = 1 }
+    groups[groupIndex - 1].classList.add("show");
+    setActiveDot(groupIndex);
+    console.log(`Showing group number ${groupIndex}`);
+}
+
+function setActiveDot(number) {
+    var dots = document.getElementsByClassName("dot");
+    for (var i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    dots[number - 1].className += " active";
+}
+
+function currentGroup(n) {
+    var groups = document.getElementsByClassName("slideGroup");
+    if (n > groups.length) { n = 1 }
+    if (n < 1) { n = groups.length }
+    for (var i = 0; i < groups.length; i++) {
+        groups[i].classList.remove("show");
+    }
+    groups[n - 1].classList.add("show");
+    groupIndex = n;
+    setActiveDot(groupIndex);
+}
+
+document.querySelector('.member-grid').addEventListener('mouseover', function () {
+    clearInterval(timer);  // Stops the interval
+});
+
+document.querySelector('.member-grid').addEventListener('mouseout', function () {
+    timer = setInterval(showSlides, slideInterval);  // Starts the interval
+});
+
+// Starts the interval when the page loads
+timer = setInterval(showSlides, slideInterval);
+
+
+showSlides();
+
+
+
+</script>
+
+
+@*       @{
 
             var variants = Model.Value<IEnumerable<BlockListItem>>("team").Select(x => x.Content);
             foreach (var variant in variants)
@@ -35,13 +138,7 @@
                         </div>
                     </div>
                 </div>
-            
+
             }
         }
-
-
-
-                   
-                </div>
-        </div>
-      
+ *@
