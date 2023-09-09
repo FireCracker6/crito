@@ -1,0 +1,85 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    var articleContainerPage = Model.Children().FirstOrDefault(x => x.ContentType.Alias == "articleContainerPage");
+    List<IPublishedContent> articles = new List<IPublishedContent>();
+
+    if (articleContainerPage != null)
+    {
+        <p>Article Container Page: @articleContainerPage.Name (@articleContainerPage.Id)</p>
+        articles = articleContainerPage.Children().Where(x => x.ContentType.Alias == "singleArticle").ToList();
+    }
+    else
+    {
+        <p>No Article Container Page Found!</p>
+    }
+
+
+
+
+
+}
+@{
+    var childCount = Model.Children().Count();
+}
+<p>Child Count: @childCount</p>
+<p>Current Node: @Model.Name (@Model.ContentType.Alias)</p>
+
+
+<ul>
+    @foreach (var article in articles)
+    {
+        <li>@article.Value("singleArticleTitle")</li>
+    }
+</ul>
+
+
+<section class="articlenews">
+    <div class="container-fluid justify-content-center my-2">
+        <div class="container d-block">
+            <div class="header">Article & News</div>
+        </div>
+        <div class="container headliner d-flex justify-content-space-between">
+            <div><h3>Get Every Single Article & News</h3></div>
+            <div><button>Browse Articles&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></button></div>
+        </div>
+
+        <div class="container articles-grid">
+
+            @foreach (var article in articles)
+            {
+                IPublishedContent articleImageContent = article.Value<IPublishedContent>("singleArticleImage");
+                string articleImageUrl = articleImageContent?.Url();
+
+                <div class="article">
+                    <a href="@article.Url()">
+                        <div class="card">
+                            <img src="@articleImageUrl" class="card-img-top" alt="@article.Value("singelArticleTitle")" />
+                            <div class="datetime">
+                                <h5>
+                                    @article.Value("singleArticleDate", fallback: Fallback.ToDefaultValue, defaultValue: DateTime.Now).ToString("dd")
+                                    <p>@article.Value("singleArticleDate", fallback: Fallback.ToDefaultValue, defaultValue: DateTime.Now).ToString("MMM")</p>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-category">@article.Value("singleArticleCategory")</p>
+                                <h5 class="card-title">@article.Value("singelArticleTitle")</h5>
+                                <p class="card-text">@article.Value("singleArticleExcerpt")</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <div class="container member-dots-carousel">
+            @{
+                int totalArticleGroups = (int)Math.Ceiling((double)articles.Count() / 3); // Assuming 3 articles per dot
+                for (int i = 1; i <= totalArticleGroups; i++)
+                {
+                    <span class="dot" onclick="currentArticleGroup(@i)"></span>
+                }
+            }
+        </div>
+    </div>
+</section>

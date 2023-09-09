@@ -1,0 +1,70 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+<div class='container-fluid team-members'>
+
+
+    <div class='container client-members'>
+
+        <div class='header'>Testimonial</div>
+        <div class='container d-flex justify-content-center'>
+            <div><h3>What Our Clients Says</h3></div>
+
+
+        </div>
+        <div class='container client-member-grid'>
+
+            @{
+                var testimonials = Model.Value<IEnumerable<BlockListItem>>("clientMemberTestimonials").Select(x => x.Content).ToList();
+                if (testimonials.Count >= 3)
+                {
+                    testimonials = testimonials.OrderBy(t => Guid.NewGuid()).Take(3).ToList();
+                }
+                else if (testimonials.Count < 3)
+                {
+                    testimonials = new List<IPublishedElement>(); // or keep the 1 or 2 testimonials
+                }
+
+                foreach (var testimonial in testimonials)
+                {
+                    var starRating = testimonial.Value<int>("starRating");
+                    var review = testimonial.Value<string>("clientReview");
+                    var clientImage = testimonial.Value<IPublishedContent>("clientImage");
+                    var clientName = testimonial.Value<string>("clientName");
+                    var clientPosition = testimonial.Value<string>("clientPosition");
+                    var clientCompany = testimonial.Value<string>("clientCompany");
+                  
+                    //... render these values in HTML
+
+                    <div class='client'>
+                        <div class="card">
+                            <div>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < starRating)
+                                    {
+                                        <span> <i class="fa-sharp fa-solid fa-star active-star"></i></span>
+                                    }
+                                    else
+                                    {
+                                        <span> <i class="fa-sharp fa-solid fa-star"></i></span>
+                                    }
+                                }
+                               
+                      
+                            </div>
+                            <div class="card-body">
+
+                                <p class="card-text">@review</p>
+                                <div class='clientname'><img src=@clientImage!.Url() alt="" /><h5>@clientName<p>@clientPosition, @clientCompany</p></h5></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+         
+       
+        </div>
+        <div><button class='black-btn mt-5 mb-5'>All Reviews&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></button></div>
+    </div>
+</div>

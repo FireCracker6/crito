@@ -1,0 +1,92 @@
+﻿@* @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+     <div class='container-fluid'>
+           
+                <div class='container global-projects'>
+                <div class='header'>Project & Case Studies</div>
+                    <div><h3>Let's Look at Our Global Projects</h3></div>
+                    <div class='global-projects-grid'>
+                        <div class='item1'>
+                            <div class="card" >
+                                <img src={growbusiness} class="card-img-top" alt="..." />
+                                    <div class="card-body">
+                                            <h5 class="card-title">Grow your business</h5>
+                                        
+                                        <div class='d-grid'><button class='gp-btn'>Read More&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></button>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class='item2'>
+                        <div class="card" >
+                                <img src={responsive} class="card-img-top" alt="..." />
+                                    <div class="card-body">
+                                            <h5 class="card-title">Why your client needs a responsive website</h5>
+                                        
+                                        <div class='d-grid'><button class='gp-btn'>Read More&nbsp;&nbsp; <i class="fa-solid fa-arrow-up-right"></i></button>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class='item3'>
+                        <div class="card" >
+                                <img src={educate} class="card-img-top" alt="..." />
+                                    <div class="card-body">
+                                            <h5 class="card-title">Educate your employees to get better results</h5>
+                                        
+                                        <div class='d-grid'><button class='gp-btn'>Read More&nbsp;&nbsp; <i class="fa-solid fa-arrow-up-right"></i></button>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class='item4'>
+                        <div class="card" >
+                                <img src={businessinsight} class="card-img-top" alt="..." />
+                                    <div class="card-body">
+                                            <h5 class="card-title">Business Insights is a important piece of your business</h5>
+                                        
+                                        <div class='d-grid'><button class='gp-btn'>Read More&nbsp;&nbsp; <i class="fa-solid fa-arrow-up-right"></i></button>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class='black-btn mt-5 mb-5'>All Recent Projects &nbsp;&nbsp; <i class="fa-solid fa-arrow-up-right"></i></button>
+                </div>
+
+              
+            </div> *@
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models.Blocks;
+<div class='container-fluid'>
+    <div class='container global-projects'>
+        <div class='header'>Project & Case Studies</div>
+        <div><h3>Let's Look at Our Global Projects</h3></div>
+        <div class='global-projects-grid'>
+            @{
+                var projectItems = Model.Value<IEnumerable<BlockListItem>>("projectCases").Select(x => x.Content).ToList();
+
+                foreach (var project in projectItems)
+                {
+                    var image = project.Value<IPublishedContent>("projectImage");
+                    var title = project.Value<string>("projectTitle");
+                    var link = project.Value<string>("projectLink");
+
+                    <div class='item'>
+                        <div class="card">
+                            <img src="@image.Url()" class="card-img-top" alt="@title" />
+                            <div class="card-body">
+                                <h5 class="card-title">@title</h5>
+                                <div class='d-grid'>
+                                    <a href="@link" class='gp-btn'>Read More&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+        <button class='black-btn mt-5 mb-5'>All Recent Projects &nbsp;&nbsp; <i class="fa-solid fa-arrow-up-right"></i></button>
+    </div>
+</div>

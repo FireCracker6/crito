@@ -1,0 +1,29 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+    <div class='container-fluid why'>
+                <div class='container d-flex justify-content-center'>
+             <div class='why-grid'>
+            <div class='item1'>
+            <div class='header'>Why Choose Us</div>
+                    <div><h3> @Model.Value("whyChooseUsTitle")</h3></div>
+                   <div class='list-items'>
+                   <div><img src="~/images/whychooseusicons/process-excellence.png" alt="" /><span><h5>@Model.Value("whyTitle1")</h5><p>@Model.Value("whyTitle1Description")</p></span></div>
+                    <div> <img src ="~/images/whychooseusicons/strategic-planning.png" alt="" /><span><h5>@Model.Value("whyTitle2")</h5><p>@Model.Value("whyTitle2Description")</p></span></div>
+                    <div><img src="~/images/whychooseusicons/experience-design.png" alt="" /><span><h5>@Model.Value("whyTitle3")</h5><p>@Model.Value("whyTitle3Description")</p></span></div>
+                    <div><img  src="~/images/whychooseusicons/artificial-intelligence.png" alt="" /><span><h5>@Model.Value("whyTitle4")</h5><p>@Model.Value("whyTitle4Description")</p></span></div>
+                   </div>
+                    </div>
+                    <div class='item2'>
+                        <div class='space-layer'>&nbsp;</div>
+                        <div class='bg-layer'>&nbsp;</div>
+                <div class='img-layer'>
+                    @if (Model.HasValue("MainImage"))
+                    {
+                        var mainImage = Model.Value<IPublishedContent>("whyChooseUsMainImage");
+                        <img src="@mainImage.Url()" alt="" />
+                    }
+                </div>
+                    </div>
+          
+             </div>
+                </div>
+            </div>

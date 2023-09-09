@@ -1,0 +1,25 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+<div class="container justify-content-center">
+    <div class="about-grid">
+        <div class="item">
+            @{
+                var mainImageContent = Model.Value<IPublishedContent>("mainImage");
+                string mainImageUrl = mainImageContent?.Url();
+            }
+            <img src="@mainImageUrl" alt="" />
+            <div class="bluebox">
+                <h5>@Model.Value("imageHeader"), <span><small>@Model.Value("imageHeaderTitle")</small></span></h5>
+                <p>"Lorem ipsum dolor sit amet consectetur adipisicing elit."</p>
+            </div>
+        </div>
+        <div class="item2">
+            <div class="header">About Company</div>
+            <h3>@Model.Value("aboutFocusHeader")</h3>
+            <p>@Model.Value("aboutDescription")</p>
+            <div class="buttons">
+                <button class="black-btn me-3">Learn More <i class="fa-solid fa-arrow-up-right"></i></button>
+                <button class="roundedplaybtn"> <i class="fa-solid fa-play fa-xs"></i></button>Intro Video
+            </div>
+        </div>
+    </div>
+</div>

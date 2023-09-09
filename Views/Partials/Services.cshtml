@@ -1,0 +1,36 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+            
+           
+
+<div class="container-fluid fluid-services">
+    <div class="container services justify-content-flex-start">
+        <div class="header">Our Services</div>
+        <div><h3>@Model.Value("serviceHeader")</h3></div>
+        <div class="services-grid">
+
+            @{
+                var services = Model.Value<IEnumerable<BlockListItem>>("service").Select(x => x.Content).ToList();
+                foreach (var service in services)
+                {
+                    var title = service.Value<string>("serviceTitle");
+                    var description = service.Value<string>("serviceDescription");
+                    var link = service.Value<string>("serviceLink");
+                    // Assuming it's a textstring. If it's a Content Picker, you'll need to get the URL differently.
+
+                    <a href="@link">
+                        <div>
+                            <h2>___</h2>
+                            <h5>@title</h5>
+                            <p>@description</p>
+                            <span><button class="roundedplaybtn"><i class="fa-regular fa-arrow-right"></i></button></span>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+        <div class="d-flex justify-content-center mt-5"><button class="transparent-btn">Browse Services <i class="fa-solid fa-arrow-up-right"></i></button></div>
+        <div class="bg-lines-right"><img src={bglineright} alt="" /></div>
+    </div>
+</div>
