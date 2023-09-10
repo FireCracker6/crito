@@ -6,7 +6,7 @@
 
     if (articleContainerPage != null)
     {
-        <p>Article Container Page: @articleContainerPage.Name (@articleContainerPage.Id)</p>
+        // <p>Article Container Page: @articleContainerPage.Name (@articleContainerPage.Id)</p>
         articles = articleContainerPage.Children().Where(x => x.ContentType.Alias == "singleArticle").ToList();
     }
     else
@@ -19,19 +19,7 @@
 
 
 }
-@{
-    var childCount = Model.Children().Count();
-}
-<p>Child Count: @childCount</p>
-<p>Current Node: @Model.Name (@Model.ContentType.Alias)</p>
 
-
-<ul>
-    @foreach (var article in articles)
-    {
-        <li>@article.Value("singleArticleTitle")</li>
-    }
-</ul>
 
 
 <section class="articlenews">

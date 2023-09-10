@@ -764,6 +764,8 @@ justify-content: flex-start;
 .team-members .member-dots-carousel span.active {
   background-color: black;
 }
+
+
 .slick-carousel {
     display: flex !important;
 }
@@ -884,11 +886,15 @@ justify-content: flex-start;
   display: grid;
   gap: 20px;
   grid-template-columns: 1fr 1fr 1fr;
+
+
+  
 }
-.articlenews .articles-grid a {
-  text-decoration: none;
-  color: blue !important;
-}
+
+    .articlenews .articles-grid a {
+        text-decoration: none;
+        color: blue !important;
+    }
 .articlenews .articles-grid a h5:hover {
   color: #838383;
 }
@@ -967,6 +973,32 @@ justify-content: flex-start;
 .articlenews .member-dots-carousel span.active {
   background-color: black;
 }
+
+
+
+    .articlenews .article-dot {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 60px;
+        padding-bottom: 80px;
+    }
+
+        .articlenews .article-dot .dot span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; /* make it rounded */
+            background-color: #C3AB70;
+            cursor: pointer; /* makes it look clickable */
+        }
+
+        .articlenews .article-dot .dot span.active {
+            background-color: black;
+        }
+
+
 
 .newsupdate {
   background-color: #DAD9D3;
@@ -1101,16 +1133,29 @@ justify-content: flex-start;
   margin-top: 60px !important;
 }
 
+.pagination a {
+    color: #191919 !important;
+    text-decoration: none;
+}
+    .pagination a:hover {
+        padding: 5px 10px !important;
+        border: 1px solid black;
+        border-radius: 3px; /* slight border-radius */
+        background-color: #C3AB70 !important;
+    }
+    .pagination span:active:hover {
+        background-color: #C3AB70 !important; /* Change to any color you prefer on hover */
+    }
+
 .pagination span, .pagination .arrow-btn {
-  padding: 5px 10px;
+  padding: 5px 10px !important;
   border: 1px solid black;
   border-radius: 3px; /* slight border-radius */
   cursor: pointer;
+  color: #191919;
 }
 
-.pagination span:hover, .pagination .arrow-btn:hover {
-  background-color: #f7f7f7; /* slight gray for hover effect */
-}
+
 
 .arrow-btn {
   max-width: 40px;
@@ -1124,7 +1169,7 @@ justify-content: flex-start;
 }
 
 .arrow-btn:hover {
-  background-color: #C3AB70; /* Change to any color you prefer on hover */
+  background-color: #C3AB70 !important; /* Change to any color you prefer on hover */
 }
 
 .mainarticle h3 {

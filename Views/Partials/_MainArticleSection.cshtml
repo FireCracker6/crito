@@ -17,10 +17,38 @@
     var mainImage = Model.Value<IPublishedContent>("singleArticleImage");
     var mainContent = Model.Value<string>("singleArticleMainContent");
     var mainArticleQuote = Model.Value<string>("singleArticleQuote");
+    var singleArticleCreditInfo = Model.Value<string>("singleArticleCreditInfo");
     var tags = Model.Value<IEnumerable<string>>("singleArticleTags");
+
+   
+
+    var recentArticles = Model.AncestorOrSelf("articleContainerPage").Children().Where(x => x.ContentType.Alias == "singleArticle").OrderByDescending(x => x.Value<DateTime>("singleArticleDate")).Take(4);
+
+
 
 
 }
+
+@{
+    var categories = new List<string> { "Tech", "Business", "Freelancing" }; // ... add others
+    Dictionary<string, int> categoryCounts = new Dictionary<string, int>();
+
+    var allArticles = Model.AncestorOrSelf("articleContainerPage").Children().Where(x => x.ContentType.Alias == "singleArticle").ToList();
+
+    foreach (var category1 in categories)
+    {
+        int count = allArticles.Count(x => string.Equals(x.Value<string>("singleArticleCategory").Trim(), category1.Trim(), StringComparison.OrdinalIgnoreCase));
+
+
+        categoryCounts.Add(category1, count);
+    }
+    // foreach (var article in allArticles)
+    // {
+    //     <div>Article Category: @article.Value("singleArticleCategory")</div>
+    // }
+
+}
+
 
 
           <section class='container mainarticle'>
@@ -44,7 +72,7 @@
                             <div class='quote'><i class="fa-sharp fa-solid fa-quote-right fa-2xl"></i></div>
                             <div>@mainArticleQuote</div>
                         </div>
-                        <p><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. unc viverra imperdiet enim. Fusce est. Vivamus a tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. </small></p>
+                        <p><small>@singleArticleCreditInfo</small></p>
 
                         <div class='d-flex my-5 buttons'>
                             @if (tags != null)
@@ -58,13 +86,17 @@
                     </div>
                     <div class='righ-column'>
                         <div class="search-container my-5 d-grid">
-                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                            <input type="text" class="search-input" placeholder="Type to search..." />
+                    <form class="d-grid" action="/search" method="get">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" name="query" class="search-input" placeholder="Type to search..." />
+                        <input type="submit" value="Search" style="display: none;" />
+                    </form>
+
                         </div>
                         <div class='recent-posts mt-4'>
                             <div><h6>Recent Posts</h6></div>
                             <div class='item'>
-                              <div class='headline mt-4'>
+                             @*  <div class='headline mt-4'>
                                <a to='/post' >  <p>How To Blow Through Capital At An Incredible Rate</p>
                                 <div class='date mb-3'>Jan 14, 2020</div>
                                 </a>
@@ -83,7 +115,30 @@
                    <a to='/post' >  <p>Figma On Figma: How We Built Our Website Design System</p>
                     <div class='date mb-3'>Jan 14, 2020</div>
                     </a>
-                   </div>
+                   </div> *@
+
+
+
+                        @foreach (var recentArticle in recentArticles)
+                        {
+                          
+                            var fullDate = recentArticle.Value("singleArticleDate").ToString();
+                            var datePart = fullDate.Split(' ')[0];
+                            var formattedDate = DateTime.Parse(datePart).ToString("MMM dd, yyyy");
+
+
+                            <div class='headline mt-3'>
+                                <a href="@recentArticle.Url()">
+                                    <p>@recentArticle.Value("singleArticleTitle")</p>
+                                    <div class='date mb-3'>@formattedDate</div>
+
+                                </a>
+                            </div>
+
+
+
+                        }
+
                             </div>
                             </div>
                         <div class='categories mt-4 '>
@@ -95,6 +150,11 @@
                                 <div>Marketing <span>- 11 Posts</span></div>
                                 <div>Business <span>- 35 Posts</span></div>
                                 <div>Education <span>- 14 Posts</span></div>
+                        @foreach (var category1 in categoryCounts)
+                        {
+                            <div>@category1.Key <span>- @category1.Value Posts</span></div>
+                        }
+
                             </div>
 
                     </div>

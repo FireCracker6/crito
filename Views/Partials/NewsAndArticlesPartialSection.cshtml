@@ -1,0 +1,208 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+
+
+@{
+    // Determine the articles based on content type
+    var articles = new List<IPublishedContent>();
+    if (Model.ContentType.Alias == "singleArticle")
+    {
+        var articleContainerPage = Model.AncestorOrSelf("articleContainerPage");
+        if (articleContainerPage != null)
+        {
+            articles = articleContainerPage.Children().Where(x => x.ContentType.Alias == "singleArticle").ToList();
+        }
+    }
+    else if (Model.ContentType.Alias == "articleContainerPage")
+    {
+        articles = Model.Children().Where(x => x.ContentType.Alias == "singleArticle").ToList();
+    }
+    else if (Model.ContentType.Alias == "pageWithShowcase")
+    {
+        var articleContainerPage = Model.Children().FirstOrDefault(x => x.ContentType.Alias == "articleContainerPage");
+        if (articleContainerPage != null)
+        {
+            articles = articleContainerPage.Children().Where(x => x.ContentType.Alias == "singleArticle").ToList();
+        }
+    }
+
+    // Now, handle the pagination
+    int pageSize = 2; // number of articles per page
+    int totalArticles = articles.Count();
+    int totalPages = (int)Math.Ceiling((double)totalArticles / pageSize);
+
+    int currentPage = 1; // default to the first page
+    var pageQueryString = Context.Request.Query["page"];
+    if (!string.IsNullOrEmpty(pageQueryString))
+    {
+        Int32.TryParse(pageQueryString, out currentPage);
+    }
+
+    // Get articles for the current page
+    var articlesToDisplay = articles.Skip((currentPage - 1) * pageSize).Take(pageSize);
+    IEnumerable<IPublishedContent> articlesForRendering = articles; // default to the full list
+
+    if (Model.ContentType.Alias == "articleContainerPage")
+    {
+        articlesForRendering = articlesToDisplay; // use paginated list only for articleContainerPage
+    }
+}
+
+
+
+<section class="articlenews">
+    <div class="container-fluid justify-content-center my-2">
+        <div class="container d-block">
+            <div class="header">Article & News</div>
+        </div>
+        <div class="container headliner d-flex justify-content-space-between">
+            <div><h3>Get Every Single Article & News</h3></div>
+
+            @if (Model.ContentType.Alias != "articleContainerPage")
+            {
+                <div><button>Browse Articles&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></button></div>
+            }
+        </div>
+
+        <div class="container articles-grid">
+            @{
+                int articlesPerGroup = Model.ContentType.Alias == "articleContainerPage" ? 9 : 3;
+                int totalGroups = (int)Math.Ceiling((double)articles.Count() / articlesPerGroup);
+                int currentGroup = 0;
+                int currentArticleCount = 0;
+
+                foreach (var article in articlesForRendering)
+                {
+                    if (currentArticleCount >= articlesPerGroup)
+                    {
+                        currentGroup++;
+                        currentArticleCount = 0;
+                    }
+
+                    IPublishedContent articleImageContent = article.Value<IPublishedContent>("singleArticleImage");
+                    string articleImageUrl = articleImageContent?.Url();
+
+                    <div class="article" data-group="@currentGroup" style="display: @(currentGroup == 0 ? "block" : "none")">
+                        <a href="@article.Url()">
+                            <div class="card">
+                                <img src="@articleImageUrl" class="card-img-top" alt="@article.Value("singelArticleTitle")" />
+                                <div class="datetime">
+                                    <h5>
+                                        @article.Value("singleArticleDate", fallback: Fallback.ToDefaultValue, defaultValue: DateTime.Now).ToString("dd")
+                                        <p>@article.Value("singleArticleDate", fallback: Fallback.ToDefaultValue, defaultValue: DateTime.Now).ToString("MMM")</p>
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-category">@article.Value("singleArticleCategory")</p>
+                                    <h5 class="card-title">@article.Value("singleArticleTitle")</h5>
+                                    <p class="card-text">@article.Value("singleArticleExcerpt")</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    currentArticleCount++;
+                }
+            }
+        </div>
+
+        @if (Model.ContentType.Alias != "articleContainerPage")
+        {
+            <div class="container article-dot">
+                @{
+                    int totalArticleGroups = (int)Math.Ceiling((double)articles.Count() / 3);
+                    for (int i = 0; i < totalArticleGroups; i++)
+                    {
+                        <span class="dot" onclick="currentArticleGroup(@i)"></span>
+                    }
+                }
+            </div>
+        }
+
+        else if (Model.ContentType.Alias == "articleContainerPage")
+        {
+
+         @*    <div class="container justify-content-center my-5 pagination">
+                <button class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>...</span>
+                <span>9</span>
+                <button class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
+            </div> *@
+            <div class="container justify-content-center my-5 pagination">
+                <!-- Previous Button -->
+                @if (currentPage > 1)
+                {
+                    <a href="/articles/?page=@(currentPage-1)" class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></a>
+                }
+
+                <!-- Loop through all the pages and create links -->
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    if (i == currentPage)
+                    {
+                        <span class="active">@i</span>
+                    }
+                    else
+                    {
+                        <a href="/articles/?page=@i">@i</a>
+                    }
+                }
+
+                <!-- Next Button -->
+                @if (currentPage < totalPages)
+                {
+                    <a href="/articles/?page=@(currentPage+1)" class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></a>
+                }
+            </div>
+
+        }
+
+    </div>
+</section>
+
+<script>
+    var articleGroupIndex = 0;
+
+    function showArticleGroups() {
+        var articles = document.querySelectorAll(".article");
+        for (var i = 0; i < articles.length; i++) {
+            if (parseInt(articles[i].getAttribute("data-group")) === articleGroupIndex) {
+                articles[i].style.display = "block";
+            } else {
+                articles[i].style.display = "none";
+            }
+        }
+        setArticleActiveDot(articleGroupIndex);
+    }
+
+    function setArticleActiveDot(index) {
+        const dots = document.querySelectorAll(".article-dot .dot");
+        dots.forEach(dot => dot.classList.remove("active"));
+        if (dots[index]) {
+            dots[index].classList.add("active");
+        }
+    }
+
+    function currentArticleGroup(n) {
+        articleGroupIndex = n;
+        showArticleGroups();
+        setArticleActiveDot(articleGroupIndex);
+    }
+
+    document.querySelector('.articles-grid').addEventListener('click', function (event) {
+        if (event.target.classList.contains('dot')) {
+            // Find the index of the clicked dot.
+            let dotIndex = [...event.target.parentElement.children].indexOf(event.target);
+            currentArticleGroup(dotIndex);
+        }
+    });
+
+    // Initialize first group as visible
+    showArticleGroups();
+
+
+
+</script>
