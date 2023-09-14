@@ -1,1 +1,73 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedUrlProvider PublishedUrlProvider
+
+
+@{
+    var site = Model.Root();
+    var selection = Model.Root().Children.Where(x => x.IsVisible(PublishedValueFallback)).ToArray(); 
+
+}
+
+
+
+
+
+<div class='container-fluid showcase'>
+    <div class='container navbar'>
+
+
+        <div class=" logotype-container"><img src="~/images/logotypes/logotype.svg" alt="sdf" /></div>
+        <div class='topnav'>
+            <div class='nav-top'><i class="fa-thin fa-phone-volume"></i> +46  (8) 121 470 50</div>
+            <div class='nav-top'><i class="fa-light fa-envelope-dot"></i> info@crito.com</div>
+            <div class='endnav-top'><i class="fa-sharp fa-light fa-location-dot"></i> Sveavägen 31, 111 34 Stockholm</div>
+        </div>
+        <div class='icons'>
+            <span><a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a></span>
+            <span><a href="https://twitter.com" target="_blank"><i class="fa-brands fa-twitter"></i></a></span>
+            <span><a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a></span>
+            <span><a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a></span>
+        </div>
+
+
+        <nav class="navbar navbar-main navbar-expand-lg mt-0 ">
+            @*  <div class="container"> *@
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-0 ">
+                    <li class="nav-item ml-0">
+                        <a class="nav-link @(Model.Id == site.Id ? "active" : null)" aria-current="page" href='@site.Url()'>@site.Name</a>
+                    </li>
+                   
+                </ul>
+                @if (selection?.Length > 0)
+                {
+                    <ul class="navbar-nav me-0 ">
+                        @foreach (var item in selection)
+                        {
+                            <li class="nav-item ml-0">
+                                <a class="nav-link @(item.IsAncestorOrSelf(Model) ? "active" : null)" aria-current="page" href='@item.Url(PublishedUrlProvider)'>@item.Name</a>
+                            </li>
+                          
+                        }
+                    </ul>
+                }
+            </div>
+            @* </div> *@
+        </nav>
+
+        <div class='nb-login'>
+            <button class='yellow-button'>Login <i class="fa-solid fa-arrow-up-right"></i></button>
+        </div>
+    </div>
+
+</div>

@@ -49,6 +49,8 @@ namespace Crito
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting(); // <-- Ensure this comes before the endpoints and after other middleware.
+
             app.UseUmbraco()
                 .WithMiddleware(u =>
                 {
@@ -61,6 +63,16 @@ namespace Crito
                     u.UseBackOfficeEndpoints();
                     u.UseWebsiteEndpoints();
                 });
+
+            app.UseEndpoints(endpoints =>
+            {
+                // Your custom routes
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
+
+
     }
 }

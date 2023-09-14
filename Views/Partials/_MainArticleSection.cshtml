@@ -2,12 +2,7 @@
 @using Umbraco.Cms.Core.Models.Blocks;
 
 
-<div class='container-fluid showcase'>
-    <div class='showcase container mb-5'>
-        <div class='breadcrumbs pt-5 py-3'>Home News</div>
-        <div><h3>News & Articles</h3></div>
-    </div>
-</div>
+
 
 @{
     var articleTitle = Model.Value<string>("singleArticleTitle");
@@ -58,9 +53,9 @@
                 </div>
                 <div class=' d-flex justify-content-flex-start'>
                   <div class="me-4">@date.ToString("MMM dd, yyyy")</div>
-            <span class="me-4"><i class="fa-solid fa-circle"></i></span>
+            <span class=" bullet me-4"><i class="fa-solid fa-circle"></i></span>
                    <div class="me-4">@category</div>
-            <span class="me-4"><i class="fa-solid fa-circle"></i></span>
+            <span class="bullet me-4"><i class="fa-solid fa-circle"></i></span>
                     <div>@author</div>
                 </div>
                 <div class='mainArticle-grid'>

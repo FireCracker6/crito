@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
     <PackageReference Include="Umbraco.Cms" Version="12.1.2" />
   </ItemGroup>
 

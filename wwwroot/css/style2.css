@@ -19,7 +19,7 @@
 }
 
 button {
-  border-radius: 40px;
+  border-radius: 40px !important;
   background-color: #F9D783;
   font-family: "Inter", sans-serif;
   font-size: 1rem;
@@ -93,6 +93,13 @@ width: 65%;
 .showcase .breadcrumbs {
   text-align: center;
 }
+
+.showcase .breadcrumbs a {
+    color: #191919;
+    font-family: "Inter", sans-serif;
+    text-decoration: none;
+    font-size: 16px;
+}
 .showcase h3 {
   font-family: "DM Sans", sans-serif;
   font-size: 45px;
@@ -123,10 +130,10 @@ width: 65%;
           align-items: center;
   height: 112px;
 }
-.navbar .topnav {
+.container .navbar .topnav {
   grid-area: none;
   display: none;
-  border-bottom: 1px solid #DAD9D3;
+  border-bottom: 1px solid #DAD9D3 !important;
   padding-bottom: 8px;
   text-align: start;
   white-space: nowrap;
@@ -140,17 +147,19 @@ width: 65%;
   color: #191919;
 }
 .navbar .topnav div {
-  display: inline-block;
-  width: 100%;
-  text-align: start;
-  padding-right: 20px;
-  -webkit-margin-end: 30px;
-          margin-inline-end: 30px;
-  margin-bottom: 8px;
-  border-right: 1px solid #DAD9D3;
+    display: inline-block;
+    width: 100% !important;
+    text-align: start;
+    padding-right: 20px;
+    -webkit-margin-end: 30px;
+    margin-inline-end: 30px;
+    margin-bottom: 8px;
+    border-right: 1px solid #DAD9D3;
+    white-space: nowrap;
 }
 .navbar .topnav .endnav-top {
-  border-right: none;
+    border-right: none;
+    white-space: nowrap;
 }
 .navbar .icons {
   grid-area: icons;
@@ -163,14 +172,26 @@ width: 65%;
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
-  padding-bottom: 8px;
+/*  padding-bottom: 8px;*/
   border-bottom: 1px solid #DAD9D3;
 }
 .navbar .icons span {
   -webkit-margin-start: 20px;
           margin-inline-start: 20px;
   margin-bottom: 8px;
+
 }
+
+
+.navbar .icons span a {
+    text-decoration: none;
+    color: #191919 !important;
+}
+
+    .navbar .icons span a:hover {
+        text-decoration: none;
+        color: #C3AB70 !important;
+    }
 .navbar .navbar-main {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -179,33 +200,71 @@ width: 65%;
       -ms-flex-pack: start;
           justify-content: flex-start;
   padding-top: 0px;
-  margin-left: 300px;
+
+
+
 }
 .navbar .navbar-main div {
   margin-right: 40px !important;
+
+  margin-left: 0;
+
 }
-.navbar .nb-login {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding-top: 0px;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  grid-area: nb-login;
+
+.navbar-expand-lg .navbar-nav .nav-link  {
+    padding-left: 0 !important;
 }
+    .navbar .nb-login {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding-top: 0px;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        grid-area: nb-login;
+    }
 .navbar .nb-login button {
   width: 122px;
 }
 .navbar .nav-item .nav-link {
-  padding-left: 0;
-  font-family: "Inter", sans-serif;
-  -webkit-margin-end: 30px;
-          margin-inline-end: 30px;
+    position: relative;
+    padding-left: 0;
+    font-family: "Inter", sans-serif;
+    -webkit-margin-end: 30px;
+    margin-inline-end: 30px;
+    display: inline-block;
 }
-.navbar .nav-item .nav-link:hover {
-  color: #aba8a8;
-}
+
+    .navbar .nav-item .nav-link::before {
+        content: "";
+        position: absolute;
+        left: 15%;
+        bottom: 0;
+        height: 3px;
+        width: 50%;
+        background-color: transparent; /* set to transparent by default */
+    }
+
+    .navbar .nav-item .nav-link:hover {
+        color: #aba8a8; /* set text color on hover */
+    }
+
+        .navbar .nav-item .nav-link:hover::before {
+            background-color: red; /* set underline color on hover */
+        }
+
+    .navbar .nav-item .nav-link.active {
+        color: #aba8a8; /* set text color when active */
+    }
+
+        .navbar .nav-item .nav-link.active::before {
+            background-color: black; /* set underline color when active */
+        }
+
+
+
+
 
 .showcase-header {
   display: -webkit-box;
@@ -668,6 +727,14 @@ justify-content: flex-start;
   padding: 5px 10px 5px 0;
   background-color: transparent;
 }
+    .global-projects .global-projects-grid .card .card-body .gp-btn a {
+        color: #191919 !important;
+        text-decoration: none !important;
+    }
+    .global-projects .global-projects-grid .card .card-body .gp-btn a:hover {
+        color: #aba8a8 !important;
+        text-decoration: none !important;
+    }
 
 .team-members {
   background-color: #F9D783;
@@ -1042,6 +1109,105 @@ justify-content: flex-start;
   text-align: center;
 }
 
+.contacts-header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    margin: 120px;
+}
+
+    .contacts-header-grid .item {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        padding: 40px 40px 20px 40px;
+        border: 1px solid #D1D1D1;
+        width: 420px;
+    }
+
+        .contacts-header-grid .item .image {
+            margin-right: 20px;
+        }
+
+        .contacts-header-grid .item h5 {
+            font-family: "DM Sans", sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            margin: 10px 0 10px 0;
+        }
+
+        .contacts-header-grid .item p {
+            font-family: "Inter", sans-serif;
+            font-size: 18px;
+            line-height: 1.5rem;
+        }
+
+.contact-form-area {
+    padding: 100px;
+    background-color: #F0EFE9;
+    display: grid;
+    margin-bottom: 100px;
+}
+
+    .contact-form-area .header {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+        .contact-form-area .header h2 {
+            max-width: 441px;
+            font-family: "DM Sans", sans-serif;
+            font-size: 45px;
+            font-weight: 1000;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+    .contact-form-area input {
+        border-radius: 30px;
+        padding: 20px 10px 20px 30px;
+        margin: 10px;
+        border: none;
+    }
+
+    .contact-form-area textarea {
+        border-radius: 30px;
+        padding: 20px 10px 20px 30px;
+        margin: 10px;
+        border: none;
+        resize: none;
+    }
+
+    .contact-form-area .contact-btn {
+        margin-top: 30px;
+        display: block;
+        width: 100%;
+        border: none;
+        background-color: #F9D783;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+.google-map {
+    border: 0;
+    width: 100%;
+    height: 380px;
+}
+
 .footer {
   position: relative;
   background-color: #0E1021;
@@ -1177,6 +1343,7 @@ justify-content: flex-start;
   font-size: 45px;
   font-weight: 900;
   max-width: 550px;
+  padding-bottom: 20px;
 }
 .mainarticle .mainArticle-grid {
   display: grid;
@@ -1189,9 +1356,15 @@ justify-content: flex-start;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.mainarticle .mainArticle-grid .articlemain .mainquote {
-  padding: 60px 0 60px 0;
+.mainarticle .bullet {
+    color: #F9D783;
+    font-size: 10px;
+  
 }
+
+    .mainarticle .mainArticle-grid .articlemain .mainquote {
+        padding: 60px 0 60px 0;
+    }
 .mainarticle .mainArticle-grid .articlemain .mainquote .quote {
   width: 60px;
   padding-right: 20px;
@@ -1295,16 +1468,17 @@ justify-content: flex-start;
 
 @media (min-width: 820px) {
   .navbar {
-    display: grid;
+    display: grid !important;
     grid-template-columns: 196px 1fr 1fr;
     grid-template-areas: "logo topnav icons" "logo main-nav  nb-login";
   }
-  .navbar .topnav {
-    display: -webkit-box !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    grid-area: topnav;
-  }
+    .navbar .topnav {
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        border-bottom: 1px solid #DAD9D3 !important;
+        grid-area: topnav;
+    }
 }
 .team-members .member-grid {
   display: grid !important;

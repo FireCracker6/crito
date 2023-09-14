@@ -1,0 +1,30 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedUrlProvider PublishedUrlProvider
+
+@{
+    var selection = Model.Ancestors().ToArray();
+    var isSingleArticle = Model.ContentType.Alias == "singleArticle"; // Replace with your actual document type alias for a single article
+}
+
+@if (selection?.Length > 0)
+{
+
+    <div class='container-fluid showcase'>
+        <div class='showcase container mb-5'>
+            <div class='breadcrumbs pt-5 py-3'>
+                @foreach (var item in selection.OrderBy(x => x.Level))
+                {
+                    <a href="@item.Url(PublishedUrlProvider)">@item.Name</a>
+                }
+                <span>@(isSingleArticle ? "" : Model.Value("pageTitle"))</span>
+            </div>
+            <div class="pb-5">
+                <h3>@(isSingleArticle ? "News & Articles" : Model.Value("pageCustomTitle"))</h3>
+            </div>
+        </div>
+    </div>
+
+}
