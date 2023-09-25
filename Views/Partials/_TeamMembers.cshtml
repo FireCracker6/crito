@@ -66,41 +66,41 @@
 
 <script>
 
-    // inspirerad från w3schools.com
-var groupIndex = 0;
+var groupIndex = 1; // Start at the first slide
 var timer = null;
-var slideInterval = 20000;  // 1 second
+var slideInterval = 20000;  // 20 seconds
 
 function showSlides() {
-    var groups = document.getElementsByclass("slideGroup");
+    var groups = document.getElementsByClassName("slideGroup");
     for (var i = 0; i < groups.length; i++) {
         groups[i].classList.remove("show");
     }
-    groupIndex++;
     if (groupIndex > groups.length) { groupIndex = 1 }
     groups[groupIndex - 1].classList.add("show");
     setActiveDot(groupIndex);
-    console.log(`Showing group number ${groupIndex}`);
+    groupIndex++;
 }
 
 function setActiveDot(number) {
-    var dots = document.getElementsByclass("dot");
+    var dots = document.getElementsByClassName("dot");
     for (var i = 0; i < dots.length; i++) {
-        dots[i].class = dots[i].class.replace(" active", "");
+        dots[i].className = dots[i].className.replace(" active", "");
     }
-    dots[number - 1].class += " active";
+    if (dots[number - 1]) {
+        dots[number - 1].className += " active";
+    }
 }
 
 function currentGroup(n) {
-    var groups = document.getElementsByclass("slideGroup");
-    if (n > groups.length) { n = 1 }
-    if (n < 1) { n = groups.length }
+    clearInterval(timer);
+    var groups = document.getElementsByClassName("slideGroup");
     for (var i = 0; i < groups.length; i++) {
         groups[i].classList.remove("show");
     }
     groups[n - 1].classList.add("show");
-    groupIndex = n;
-    setActiveDot(groupIndex);
+    groupIndex = n + 1; // Next slide to show after this will be the next slide group
+    setActiveDot(n);
+    timer = setInterval(showSlides, slideInterval);
 }
 
 document.querySelector('.member-grid').addEventListener('mouseover', function () {
@@ -114,7 +114,7 @@ document.querySelector('.member-grid').addEventListener('mouseout', function () 
 // Starts the interval when the page loads
 timer = setInterval(showSlides, slideInterval);
 
-
+// Show the first slideGroup initially
 showSlides();
 
 

@@ -6,17 +6,17 @@
 
 <div class="container-fluid fluid-services">
     <div class="container services justify-content-flex-start">
-        <div class="header">Our Services</div>
-        <div><h3>@Model.Value("serviceHeader")</h3></div>
+        <div class="header">@Model.Value("consultingServiceBlockHeader")</div>
+        <div><h3>@Model.Value("consultingServiceHeader")</h3></div>
         <div class="services-grid">
 
             @{
-                var services = Model.Value<IEnumerable<BlockListItem>>("service").Select(x => x.Content).ToList();
+                var services = Model.Value<IEnumerable<BlockListItem>>("consultingServicesArea").Select(x => x.Content).ToList();
                 foreach (var service in services)
                 {
-                    var title = service.Value<string>("serviceTitle");
-                    var description = service.Value<string>("serviceDescription");
-                    var link = service.Value<string>("serviceLink");
+                    var title = service.Value<string>("consultingServiceTitle");
+                    var description = service.Value<string>("consultingServiceDescription");
+                    var link = service.Value<string>("consultingServiceLink");
                     // Assuming it's a textstring. If it's a Content Picker, you'll need to get the URL differently.
 
                     <a href="@link">

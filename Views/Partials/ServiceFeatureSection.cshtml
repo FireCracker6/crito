@@ -1,0 +1,19 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.PageWithShowcase>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+ 
+   <!--feature section -->
+  <div class='container-fluid features-grid mt-5 justify-content-center'>
+            <div><div class='header'>Features</div>
+            <h3>@Model.Value("aboutHeader")
+        </h3><div class='lrn-btn'>
+            <div><a class="btn-theme-learnmore" href="#">Learn More&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></a> </div>
+        </div>
+    </div>
+            <div class='features-desc'>
+            @Html.GetBlockListHtml(Model.ServiceFeature)
+
+
+            </div>
+          </div>  
+
