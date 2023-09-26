@@ -1,4 +1,9 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+﻿@using Crito.Models;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@{
+    var contactForm = new Crito.Models.ContactForm();
+}
 
         <div class="container d-flex justify-content-center">
         
@@ -7,17 +12,17 @@
 <div class="item">
     
 <div class="image"><img src="~/images/icons/location.png" alt="" /></div>
-<div><h5>Visit Us</h5><p>Sveavägen 31 <br />111 34 STOCKHOLM</p></div>
+<div><h5>@Model.Value("visitUsHeader")</h5><p>@Model.Value("visitUsStreetAddress") <br />@Model.Value("visitUsPostalCodeCity")</p></div>
 </div>
 <div class="item">
 
             <div class="image"><img src="~/images/icons/call.png" alt="" /></div>
-<div><h5>Call Us</h5><p>+46 (8) 121 470 50<br />+46 (8) 121 470 51</p></div>
+<div><h5>@Model.Value("callUsHeader")</h5><p>@Model.Value("callUsPhoneNumber1")<br />@Model.Value("callUsPhoneNumber2")</p></div>
 </div>
 <div class="item">
 
             <div class="image"><img src="~/images/icons/email.png" alt="" /></div>
-<div><h5>Email Us</h5><p>info@crito.com<br />support@crito.com</p></div>
+<div><h5>@Model.Value("emailUsHeader")</h5><p>@Model.Value("emailUsAddress1")<br />@Model.Value("emailUsAddress2")</p></div>
 </div>
         </div>
         </div>
@@ -32,16 +37,20 @@
             @TempData["SuccessMessage"]
         </div>
     }
+    @using (Html.BeginUmbracoForm("Index", "Contacts", FormMethod.Post, new { @class = "contact-form-area" }))
 
    
+    {
 
-        <input type="text" name="name" placeholder="Name*" />
-        <input type="email" name="email" placeholder="Email*" />
-        <textarea name="message" id="message" cols="30" rows="5" placeholder="Your Message*"></textarea>
-    <form method="post" action="/ContactForm/SubmitForm">
+        <div asp-validation-summary="All"></div>
+
+        <input asp-for="@contactForm.Name" type="text" name="Name" placeholder="Name*" />
+        <input asp-for="@contactForm.Email" type="email" name="Email" placeholder="Email*" />
+        <textarea asp-for="@contactForm.Message" name="Message" id="message" cols="30" rows="5" placeholder="Your Message*"></textarea>
+   
         <button class='contact-btn' type="submit">Send Message&nbsp;&nbsp;<i class="fa-solid fa-arrow-up-right"></i></button>
-    </form>
 
+    }
            </div>
 
           
@@ -50,7 +59,7 @@
           
           class=' google-map'
           title='google map'  
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.779387591156!2d18.059435577742967!3d59.336636974617846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d6799554e87%3A0x6562d2c842903003!2sSveav%C3%A4gen%2031%2C%20111%2034%20Stockholm!5e0!3m2!1sen!2sse!4v1694694234253!5m2!1sen!2sse" 
+        src=@Model.Value("googleMapsURL") 
        
        allowFullScreen={true}
        loading="lazy" 
