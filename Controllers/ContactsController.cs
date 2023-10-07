@@ -11,7 +11,7 @@ using Umbraco.Cms.Web.Website.Controllers;
 
 namespace Crito.Controllers;
 
-public class ContactsController : SurfaceController
+public class ContactsController : Umbraco.Cms.Web.Website.Controllers.SurfaceController
 {
     public ContactsController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
     {

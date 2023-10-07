@@ -11,28 +11,51 @@
 @{
     var site = Model.Root();
     var selection = Model.Root().Children.Where(x => x.IsVisible(PublishedValueFallback)).ToArray(); 
+    var navbarNode = Umbraco.ContentAtRoot().FirstOrDefault(x => x.ContentType.Alias == "navbar");
+
+    var navPhone = navbarNode?.Value<string>("navPhone");
+    var navEmail = navbarNode?.Value<string>("navEmail");
+    var navAddress = navbarNode?.Value<string>("navAddress");
+    var navFacebook = navbarNode?.Value<string>("navFaceBook");
+    var navTwitter = navbarNode?.Value<string>("navTwitter");
+    var navInstagram = navbarNode?.Value<string>("navInstagram");
+    var navLinkedIn = navbarNode?.Value<string>("navLinkedIn");
+
+
+
+
+  
 
 }
 
 
-
-
-
 <div class='container-fluid showcase'>
     <div class='container navbar'>
-
-
+    
         <div class=" logotype-container"><img src="~/images/logotypes/logotype.svg" alt="sdf" /></div>
         <div class='topnav'>
-            <div class='nav-top'><i class="fa-thin fa-phone-volume"></i> +46  (8) 121 470 50</div>
-            <div class='nav-top'><i class="fa-light fa-envelope-dot"></i> info@crito.com</div>
-            <div class='endnav-top'><i class="fa-sharp fa-light fa-location-dot"></i> Sveavägen 31, 111 34 Stockholm</div>
+            <div class='nav-phone'><i class="fa-light fa-phone"></i> @navPhone</div>
+            <div class='nav-top'><i class="fa-light fa-envelope-dot"></i> @navEmail</div>
+            <div class='endnav-top'><i class="fa-sharp fa-light fa-location-dot"></i>@navAddress</div>
         </div>
         <div class='icons'>
-            <span><a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a></span>
-            <span><a href="https://twitter.com" target="_blank"><i class="fa-brands fa-twitter"></i></a></span>
-            <span><a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a></span>
-            <span><a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a></span>
+            @if (!string.IsNullOrEmpty(navFacebook))
+            {
+                <span><a href="@navFacebook" target="_blank"><i class="fa-brands fa-facebook"></i></a></span>
+            }
+            @if (!string.IsNullOrEmpty(navTwitter))
+            {
+                <span><a href="@navTwitter" target="_blank"><i class="fa-brands fa-twitter"></i></a></span>
+            }
+            @if (!string.IsNullOrEmpty(navInstagram))
+            {
+                <span><a href="@navInstagram" target="_blank"><i class="fa-brands fa-instagram"></i></a></span>
+            }
+            @if (!string.IsNullOrEmpty(navLinkedIn))
+            {
+                <span><a href="@navLinkedIn" target="_blank"><i class="fa-brands fa-linkedin"></i></a></span>
+            }
+
         </div>
 
 
